@@ -1,4 +1,8 @@
+Folked from offical @jofftiquez to expose stripe options to global scope. 
 
+Use Case:
+ - Eliminate multiple stripe option setups in case more than one Stripe button used.
+ 
 <center>
   <h1> Vue Stripe Checkout </h1>
   <span>
