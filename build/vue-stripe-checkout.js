@@ -5,7 +5,10 @@
 }(this, (function () { 'use strict';
 
   const VueStripeCheckout = {
-    install(Vue, key) {
+    install(Vue, opts) {
+      //compatible with previous version
+      let key = typeof opts === 'string' ? opts : opts.key;
+
       Vue.component('VueStripeCheckout', {
         render: h => h('div', { style: { display: 'none' } }),
         props: {
@@ -15,43 +18,43 @@
           },
           image: {
             type: String,
-            default: null,
+            default: opts.image,
           },
           name: {
             type: String,
-            default: null,
+            default: opts.name || null,
           },
           description: {
             type: String,
-            default: null,
+            default: opts.description || null,
           },
           amount: {
             type: Number,
-            default: 0,
+            default: opts.amount || 0,
           },
           locale: {
             type: String,
-            default: 'en',
+            default: opts.locale || 'en',
           },
           zipCode: {
             type: Boolean,
-            default: false,
+            default: opts.zipCode || false,
           },
           billingAddress: {
             type: Boolean,
-            default: false,
+            default: opts.billingAddress || false,
           },
           currency: {
             type: String,
-            default: 'USD',
+            default: opts.currency || 'USD',
           },
           panelLabel: {
             type: String,
-            default: 'Pay with Card',
+            default: opts.panelLabel || 'Pay with Card',
           },
           shippingAddress: {
             type: Boolean,
-            default: false,
+            default: opts.shippingAddress || false,
           },
           email: {
             type: String,
@@ -59,11 +62,11 @@
           },
           allowRememberMe: {
             type: Boolean,
-            default: true,
+            default: opts.allowRememberMe || true,
           },
           autoOpenModal: {
             type: Boolean,
-            default: false,
+            default: opts.autoOpenModal || false,
           },
         },
         mounted() {
@@ -130,11 +133,11 @@
                   this.doneEmitted = true;
                 },
                 opened: () => { this.$emit('opened'); },
-                closed: () => { 
+                closed: () => {
                   if (!this.doneEmitted) {
                     this.$emit('canceled');
                   }
-                  this.$emit('closed'); 
+                  this.$emit('closed');
                   this.doneEmitted = false;
                 },
               };
