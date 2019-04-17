@@ -65,7 +65,8 @@ const VueStripeCheckout = {
       },
       mounted() {
         if (document.querySelector('script#_stripe-checkout-script')) {
-          return this.setCheckout();
+          let s = document.querySelector('script#_stripe-checkout-script')
+          return s.addEventListener('load', this.setCheckout);
         }
         const script = document.createElement('script');
         script.id = '_stripe-checkout-script';
@@ -80,8 +81,8 @@ const VueStripeCheckout = {
       //  this.setCheckout();
       // },
       beforeDestroy() {
-        const stripeApp = document.querySelector('iframe.stripe_checkout_app');
-        if (stripeApp) stripeApp.remove();
+        //const stripeApp = document.querySelector('iframe.stripe_checkout_app');
+        //if (stripeApp) stripeApp.remove();
       },
       data: () => ({
         checkout: null,
@@ -94,10 +95,10 @@ const VueStripeCheckout = {
       },
       methods: {
         setCheckout() {
-          const stripeApp = document.querySelector(
-            'iframe.stripe_checkout_app'
-          );
-          if (stripeApp) stripeApp.remove();
+          // const stripeApp = document.querySelector(
+          //   'iframe.stripe_checkout_app'
+          // );
+          // if (stripeApp) stripeApp.remove();
           this.checkout = StripeCheckout.configure({ key: this.key });
           if (this.autoOpenModal) this.open();
         },
