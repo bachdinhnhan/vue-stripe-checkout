@@ -64,6 +64,7 @@ const VueStripeCheckout = {
         },
       },
       mounted() {
+        this.setCheckout()
         if (document.querySelector('script#_stripe-checkout-script')) {
           let s = document.querySelector('script#_stripe-checkout-script')
           return s.addEventListener('load', this.setCheckout);
@@ -99,6 +100,8 @@ const VueStripeCheckout = {
           //   'iframe.stripe_checkout_app'
           // );
           // if (stripeApp) stripeApp.remove();
+          if (this.checkout || !window.StripeCheckout)
+            return
           this.checkout = StripeCheckout.configure({ key: this.key });
           if (this.autoOpenModal) this.open();
         },
