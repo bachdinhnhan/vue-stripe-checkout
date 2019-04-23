@@ -70,8 +70,10 @@
           },
         },
         mounted() {
+          this.setCheckout();
           if (document.querySelector('script#_stripe-checkout-script')) {
-            return this.setCheckout();
+            let s = document.querySelector('script#_stripe-checkout-script');
+            return s.addEventListener('load', this.setCheckout);
           }
           const script = document.createElement('script');
           script.id = '_stripe-checkout-script';
@@ -86,8 +88,8 @@
         //  this.setCheckout();
         // },
         beforeDestroy() {
-          const stripeApp = document.querySelector('iframe.stripe_checkout_app');
-          if (stripeApp) stripeApp.remove();
+          //const stripeApp = document.querySelector('iframe.stripe_checkout_app');
+          //if (stripeApp) stripeApp.remove();
         },
         data: () => ({
           checkout: null,
@@ -100,10 +102,12 @@
         },
         methods: {
           setCheckout() {
-            const stripeApp = document.querySelector(
-              'iframe.stripe_checkout_app'
-            );
-            if (stripeApp) stripeApp.remove();
+            // const stripeApp = document.querySelector(
+            //   'iframe.stripe_checkout_app'
+            // );
+            // if (stripeApp) stripeApp.remove();
+            if (this.checkout || !window.StripeCheckout)
+              return
             this.checkout = StripeCheckout.configure({ key: this.key });
             if (this.autoOpenModal) this.open();
           },
